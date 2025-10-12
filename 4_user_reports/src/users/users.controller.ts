@@ -2,8 +2,11 @@ import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Q
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UsersService } from "./users.service";
 import { UpdateUserDto } from "./dtos/update-user.dto";
+import { UserDto } from "./dtos/user.dto";
+import { Serialize } from "src/interceptors/serialize.interceptor";
 
 @Controller('auth')
+@Serialize(UserDto) // without this all fields will be returned // dont forget to restart the server
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -20,7 +23,6 @@ export class UsersController {
     }
     return user;
   }
-
 
   @Get()
   findAllUsers(@Query('email') email: string) {
